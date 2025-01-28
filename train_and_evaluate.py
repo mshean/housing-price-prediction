@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
@@ -30,6 +31,9 @@ def prepare_data(data):
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
+    # Save the scaler to disk
+    joblib.dump(scaler, "scaler.pkl")
+
     return X_train_scaled, X_test_scaled, y_train, y_test
 
 def train_and_evaluate(X_train, X_test, y_train, y_test):
@@ -50,6 +54,9 @@ def train_and_evaluate(X_train, X_test, y_train, y_test):
     print("Mean Absolute Error (MAE):", mae)
     print("Mean Squared Error (MSE):", mse)
     print("R-squared (R²):", r2)
+
+    # Save model to disk
+    joblib.dump(model, "linear_regression_model.pkl")
 
 def main():
     # Step 1: Load data
